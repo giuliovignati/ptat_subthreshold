@@ -2,7 +2,8 @@
 ![Image](https://github.com/user-attachments/assets/1dc5d9cd-48ef-45cc-8156-f44592f1d1de)
 ---
 
-
+## Project Objectives 
+The objective is to create a voltage reference of 500mV using mosfet with channel length in the range 50nm - 300nm in subthreshold region with a minimum variations of the output voltage in the temperature range -20, +80 celsius degrees.
 
 ## 🔥 PTAT in Subthreshold Region
 
