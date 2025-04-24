@@ -1,9 +1,9 @@
-# Voltage Reference with subthreshold MOSFETs
+# ⚡ Voltage Reference with subthreshold MOSFETs
 ![Image](https://github.com/user-attachments/assets/1dc5d9cd-48ef-45cc-8156-f44592f1d1de)
 ---
 
 ## Project Objectives 
-The objective is to create a voltage reference of 500mV using mosfet with channel length in the range 50nm - 300nm in subthreshold region with a minimum variations of the output voltage in the temperature range -20, +80 celsius degrees.
+The objective is to design a voltage reference of 500mV using a MOSFET operating in the subthreshold region, with a channel length ranging from 50nm to 300nm. The design should minimize variations in the output voltage $V_{ref}$ over a temperature range of -20°C to +80°C.
 
 ## 🔥 PTAT in Subthreshold Region
 
@@ -24,13 +24,45 @@ Where:
 ---
 
 
-## Project Outline
-$Vdd = 1V$
-$V_{ref} = 0.5V$
-$Idd = 100nA$
-$R \leq 20\mathrm{k}\Omega$
-DVR1 = [50-100mV]
+## Project Overview
+
+#### Project Costraints
+
+| $V_{dd}$ | $V_{ref}$ | $I_{dd}$ | $R_{max}$ | $DVR1$          |
+|----------|-----------|----------|-----------|-----------------|
+| $1V$     | $0.5V$    | $100nA$  | $≤20kΩ$   | $50-100mV$      |
+
+For semplicity we'll assume 
+| Thermal Voltage $V_{TH}$ | Subthreshold Slope $n$ |
+|----------|-----------|
+| $25mV$     | $0.5V$    |
+
+## Equations
+
+It is rather obvious that the output voltage: $V_{\text{ref}} = V_s \left( \frac{R_3 + R_4}{R_4} \right)$
+$I_{D3} = \frac{V_{GS4} - V_{GS3}}{R_1} = \frac{n \cdot V_{TH} \cdot \ln(N)}{R_1}$ 
+$V_s = V_{GS4} + 2 \cdot I_{D3} \cdot R_2$ 
+$\Delta V_{R1} = R_1 \cdot I_{d3}$
+
+## Spice Simulations:
+#### Schematic
+![Image](https://github.com/user-attachments/assets/1a67a2fc-60bf-465a-96ed-778d25a329a6)
 
 
+## M1 - M2 Mirror Design
+M1 and M2 are designed with a $W=1u$, $L=150n$, it is important no notice that are implemented with extended channel lengths to maximize output resistance, minimize channel-length modulation and mismatch, and thus serve as a highly stable, precision current source..
+#### M1, M2 Drain Currents Ids
+The slightly difference between the IDS is justified by the fact that M1 is diode-connected ($VDS1=VGS1$) while M2 runs at whatever VDS the core node demands.
+![Image](https://github.com/user-attachments/assets/0d1750ca-0d4b-4c46-92a7-2b07796115c2)
+#### M1, M2 Gate Currents Ig
+It was rather interesting plotting the gate-tunneling currents, given the fact that we're using a nanometric technology.  
+![Image](https://github.com/user-attachments/assets/48fd5c68-f65c-4f99-8f1e-d8080e473d50)
 
-*Fine del documento.*
+
+## Results
+$Vref$ analyzed on a full temperature sweep -20°C, +80°C:
+![Image](https://github.com/user-attachments/assets/e7e5ed28-71b7-4998-ab03-4d566da90c57)
+
+![Image](https://github.com/user-attachments/assets/1240b0f1-c7d5-451d-b844-0c33bf87881c)
+
+![Image](https://github.com/user-attachments/assets/431ad0e5-6122-4f4f-bbb0-c2a24d3b7dda)
