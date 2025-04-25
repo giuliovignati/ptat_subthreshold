@@ -39,8 +39,6 @@ For semplicity we'll assume
 
 ## ➗ Case of study Equations
 
-It is rather obvious that the output voltage: 
-
 - $V_{\text{ref}} = V_s \left( \frac{R_3 + R_4}{R_4} \right)$
 - $I_{D3} = \frac{V_{GS4} - V_{GS3}}{R_1} = \frac{n \cdot V_{TH} \cdot \ln(N)}{R_1}$ 
 - $V_s = V_{GS4} + 2 \cdot I_{D3} \cdot R_2$ 
@@ -48,8 +46,7 @@ It is rather obvious that the output voltage:
 
 ## 💻 Spice Simulations:
 #### Schematic
-![Image](https://github.com/user-attachments/assets/1a67a2fc-60bf-465a-96ed-778d25a329a6)
-
+![Image](https://github.com/user-attachments/assets/b4bb2f84-02bb-4a84-bbcf-e283fb66d3f0)
 
 ## M1 - M2 Mirror Design
 M1 and M2 are designed with a $W=1u$, $L=150n$, it is important no notice that are implemented with extended channel lengths to maximize output resistance, minimize channel-length modulation and mismatch, and thus serve as a highly stable, precision current source.
@@ -97,16 +94,27 @@ $R3 = 8.25Meg$ and $R4 = 20Meg$ satisfy this costraint, and have a sufficiently 
 #### Total Current Idd
 ![Image](https://github.com/user-attachments/assets/3d6a83c1-8076-40c5-81fd-d8e48ccb60f0)
 
+---
 
+## 🔄 Further Optimization and overall final results
 
-## Further Optimization and overall final results
+The obtained Idd at 80°C is $98.2nA$, so it is very close to $100nA$.
+We could think of using a lower $N$, in particular $N = 8$ in order to obtain a lower $Id3$.
 
-The obtained Idd at 80°C is 98.2nA, so it is very close to 100nA.
-We could think of using a lower N, in particular N=8 in order to obtain a lower $Id3$.
-- $\ln(N) = \frac{\text{Id3} \cdot R1}{n \cdot V_\text{th}}$
-$R2=1.85Meg$ $R3 = 8Meg$ and $R4 = 19.5Meg$
+#### Revisited Schematic with updated values
+![Image](https://github.com/user-attachments/assets/1a67a2fc-60bf-465a-96ed-778d25a329a6)
+
+The new values for R2, R3 and R4 are listed below (these are obtained with the exact same calculus as before):
+
+- $R2 = 1.85Meg$ 
+
+- $R3 = 8Meg$ 
+
+- $R4 = 19.5Meg$
 
 #### $Vref$ analyzed on a full temperature sweep -20°C, +80°C
 ![Image](https://github.com/user-attachments/assets/e7e5ed28-71b7-4998-ab03-4d566da90c57)
 
+#### Total Current Idd
+![image](https://github.com/user-attachments/assets/1bf92b92-b68c-4e91-bf5d-3d82a5bd6c49)
 
