@@ -3,7 +3,7 @@
 ---
 
 ## Project Objectives 
-The objective is to design a voltage reference of 500mV using a MOSFET operating in the subthreshold region, with a channel length ranging from 50nm to 300nm. The design should minimize variations in the output voltage $V_{ref}$ over a temperature range of -20°C to +80°C.
+The objective is to design a voltage reference of 500mV using MOSFETs operating in the subthreshold region, with a channel length ranging from 50nm to 300nm. The design should minimize variations in the output voltage $V_{ref}$ over a temperature range of -20°C to +80°C.
 
 ## 🔥 PTAT in Subthreshold Region
 
@@ -35,7 +35,7 @@ Where:
 For semplicity we'll assume 
 | Thermal Voltage $V_{TH}$ | Subthreshold Slope $n$ |
 |----------|-----------|
-| $25mV$     | $0.5V$    |
+| $25mV$     | $1.2$    |
 
 ## Equations
 
@@ -50,7 +50,7 @@ $\Delta V_{R1} = R_1 \cdot I_{d3}$
 
 
 ## M1 - M2 Mirror Design
-M1 and M2 are designed with a $W=1u$, $L=150n$, it is important no notice that are implemented with extended channel lengths to maximize output resistance, minimize channel-length modulation and mismatch, and thus serve as a highly stable, precision current source..
+M1 and M2 are designed with a $W=1u$, $L=150n$, it is important no notice that are implemented with extended channel lengths to maximize output resistance, minimize channel-length modulation and mismatch, and thus serve as a highly stable, precision current source.
 #### M1, M2 Drain Currents Ids
 The slightly difference between the IDS is justified by the fact that M1 is diode-connected ($VDS1=VGS1$) while M2 runs at whatever VDS the core node demands.
 ![Image](https://github.com/user-attachments/assets/0d1750ca-0d4b-4c46-92a7-2b07796115c2)
@@ -58,6 +58,28 @@ The slightly difference between the IDS is justified by the fact that M1 is diod
 It was rather interesting plotting the gate-tunneling currents, given the fact that we're using a nanometric technology.  
 ![Image](https://github.com/user-attachments/assets/48fd5c68-f65c-4f99-8f1e-d8080e473d50)
 
+## M3 - M4 - R1 - R2 Design 
+M3 and M4 are designed with a $W=1u$, $L=55n$, $m=8$ was chosen given that we want M3 more conductive than M4 (the presence of $R1$ makes $Vgs3 < Vgs4$).
+
+The following $DVR1$ and $I3$ were chosen:
+
+- $\text{DVR1} = 78 \text{mV}$  
+- $\text{I3} = 30 \text{nA}$
+
+From those we can derive $R1$:  
+- $R1 = \frac{\text{DVR1}}{\text{I3}} = 2.6 \text{M}$
+
+
+We could think of using a lower N, in particular N=8 in order to obtain a lower $Id3$.
+- $\ln(N) = \frac{\text{Id3} \cdot R1}{n \cdot V_\text{th}}$  
+
+ 
+## M5 - R3 - R4 Design 
+M5 was designed with a $W=1u$, $L=55n$ similarly to M3 and M4.
+R3 and R4 were chosen with the objective of amplifying $V_s$ in order to get $V_{ref} = 500mV$ according to $V_{\text{ref}} = V_s \left( \frac{R_3 + R_4}{R_4} \right)$.
+$R3 = 8Meg$ and $R4 = 19.5Meg$ satisfy this costraint, and have a sufficiently large value that guarantee that M5 stays in subthreshold region.
+#### Drain Current of M5 to certify that it is in the subthreshold region
+![Image](https://github.com/user-attachments/assets/f2d3845a-6878-46c7-841a-4102a54feaf3)
 
 ## Results
 $Vref$ analyzed on a full temperature sweep -20°C, +80°C:
