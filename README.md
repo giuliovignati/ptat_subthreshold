@@ -2,7 +2,7 @@
 ![Image](https://github.com/user-attachments/assets/1dc5d9cd-48ef-45cc-8156-f44592f1d1de)
 ---
 
-## Project Objectives 
+## 🎯 Project Objectives 
 The objective is to design a voltage reference of 500mV using MOSFETs operating in the subthreshold region, with a channel length ranging from 50nm to 300nm. The design should minimize variations in the output voltage $V_{ref}$ over a temperature range of -20°C to +80°C.
 
 ## 🔥 PTAT in Subthreshold Region
@@ -24,9 +24,9 @@ Where:
 ---
 
 
-## Project Overview
+## 🧭 Project Overview
 
-#### Project Costraints
+#### 📏 Project Costraints
 
 | $V_{dd}$ | $V_{ref}$ | $I_{dd}$ | $R_{max}$ | $DVR1$          |
 |----------|-----------|----------|-----------|-----------------|
@@ -37,14 +37,16 @@ For semplicity we'll assume
 |----------|-----------|
 | $25mV$     | $1.2$    |
 
-## Equations
+## ➗ Case of study Equations
 
-It is rather obvious that the output voltage: $V_{\text{ref}} = V_s \left( \frac{R_3 + R_4}{R_4} \right)$
-$I_{D3} = \frac{V_{GS4} - V_{GS3}}{R_1} = \frac{n \cdot V_{TH} \cdot \ln(N)}{R_1}$ 
-$V_s = V_{GS4} + 2 \cdot I_{D3} \cdot R_2$ 
-$\Delta V_{R1} = R_1 \cdot I_{d3}$
+It is rather obvious that the output voltage: 
 
-## Spice Simulations:
+- $V_{\text{ref}} = V_s \left( \frac{R_3 + R_4}{R_4} \right)$
+- $I_{D3} = \frac{V_{GS4} - V_{GS3}}{R_1} = \frac{n \cdot V_{TH} \cdot \ln(N)}{R_1}$ 
+- $V_s = V_{GS4} + 2 \cdot I_{D3} \cdot R_2$ 
+- $\Delta V_{R1} = R_1 \cdot I_{d3}$
+
+## 💻 Spice Simulations:
 #### Schematic
 ![Image](https://github.com/user-attachments/assets/1a67a2fc-60bf-465a-96ed-778d25a329a6)
 
@@ -59,7 +61,7 @@ It was rather interesting plotting the gate-tunneling currents, given the fact t
 ![Image](https://github.com/user-attachments/assets/48fd5c68-f65c-4f99-8f1e-d8080e473d50)
 
 ## M3 - M4 - R1 - R2 Design 
-M3 and M4 are designed with a $W=1u$, $L=55n$, $m=8$ was chosen given that we want M3 more conductive than M4 (the presence of $R1$ makes $Vgs3 < Vgs4$).
+M3 and M4 are designed with a $W=1u$, $L=55n$, it is necessary to have an $m > 1$ given that we want M3 more conductive than M4 (the presence of $R1$ makes $Vgs3 < Vgs4$).
 
 The following $DVR1$ and $I3$ were chosen:
 
@@ -69,22 +71,42 @@ The following $DVR1$ and $I3$ were chosen:
 From those we can derive $R1$:  
 - $R1 = \frac{\text{DVR1}}{\text{I3}} = 2.6 \text{M}$
 
+At this point we are able to obtain $N$ (which is equal to $m$ molteplicity factor):
+- $N = e^{\frac{I_{D3} \cdot R_1}{n \cdot V_{TH}}} = 11$
 
-We could think of using a lower N, in particular N=8 in order to obtain a lower $Id3$.
-- $\ln(N) = \frac{\text{Id3} \cdot R1}{n \cdot V_\text{th}}$  
+Now we are able to sweep R2 (with a .step function) in order to find a suitable value that guarantees: 
+- $\frac{dV_{ref}}{dT} \approx 0$
 
- 
+The best value found for this is $R2 = 1.63Meg$
+
+
 ## M5 - R3 - R4 Design 
 M5 was designed with a $W=1u$, $L=55n$ similarly to M3 and M4.
 R3 and R4 were chosen with the objective of amplifying $V_s$ in order to get $V_{ref} = 500mV$ according to $V_{\text{ref}} = V_s \left( \frac{R_3 + R_4}{R_4} \right)$.
-$R3 = 8Meg$ and $R4 = 19.5Meg$ satisfy this costraint, and have a sufficiently large value that guarantee that M5 stays in subthreshold region.
+$R3 = 8.25Meg$ and $R4 = 20Meg$ satisfy this costraint, and have a sufficiently large value that guarantee that M5 stays in subthreshold region.
 #### Drain Current of M5 to certify that it is in the subthreshold region
 ![Image](https://github.com/user-attachments/assets/f2d3845a-6878-46c7-841a-4102a54feaf3)
 
-## Results
-$Vref$ analyzed on a full temperature sweep -20°C, +80°C:
+--- 
+
+
+## 📊 Results
+
+#### $Vref$ analyzed on a full temperature sweep -20°C, +80°C
+![Image](https://github.com/user-attachments/assets/5a07c5ac-c4e5-47ca-964e-f4c57221e9cd)
+#### Total Current Idd
+![Image](https://github.com/user-attachments/assets/3d6a83c1-8076-40c5-81fd-d8e48ccb60f0)
+
+
+
+## Further Optimization and overall final results
+
+The obtained Idd at 80°C is 98.2nA, so it is very close to 100nA.
+We could think of using a lower N, in particular N=8 in order to obtain a lower $Id3$.
+- $\ln(N) = \frac{\text{Id3} \cdot R1}{n \cdot V_\text{th}}$
+$R2=1.85Meg$ $R3 = 8Meg$ and $R4 = 19.5Meg$
+
+#### $Vref$ analyzed on a full temperature sweep -20°C, +80°C
 ![Image](https://github.com/user-attachments/assets/e7e5ed28-71b7-4998-ab03-4d566da90c57)
 
-![Image](https://github.com/user-attachments/assets/1240b0f1-c7d5-451d-b844-0c33bf87881c)
 
-![Image](https://github.com/user-attachments/assets/431ad0e5-6122-4f4f-bbb0-c2a24d3b7dda)
